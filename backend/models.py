@@ -19,6 +19,6 @@ class Question(db.Model):
     type = db.Column(db.String(50), nullable=False)
     text = db.Column(db.Text, nullable=False)
     options = db.Column(db.Text, nullable=True)  # Store options as a comma-separated string
-    correct_answer = db.Column(db.String(255), nullable=False)
+    student_answer = db.Column(db.String(255), nullable=False)
     related_theory = db.Column(db.Text, nullable=True)
     marks = db.Column(db.Integer, nullable=False)

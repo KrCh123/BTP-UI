@@ -6,7 +6,7 @@ app = Flask(__name__)
 CORS(app)
 
 # Configure the SQLAlchemy part of the app instance
-app.config['SECRET_KEY'] = 'Crypto'
+app.config['SECRET_KEY'] = 'Btp'
 app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:Root123$#@localhost/btp'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
@@ -37,7 +37,7 @@ def create_exam():
             type=question_data.get('type'),
             text=question_data.get('text'),
             options=",".join(question_data.get('options', [])),
-            correct_answer=question_data.get('correct_answer'),
+            student_answer=question_data.get('student_answer'),
             related_theory=question_data.get('related_theory'),
             marks=question_data.get('marks')
         )
@@ -58,7 +58,7 @@ def get_exams():
                 "type": question.type,
                 "text": question.text,
                 "options": question.options.split(',') if question.options else [],
-                "correct_answer": question.correct_answer,
+                "student_answer": question.student_answer,
                 "related_theory": question.related_theory,
                 "marks": question.marks
             } for question in questions

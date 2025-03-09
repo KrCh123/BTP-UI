@@ -13,8 +13,8 @@ export const TeacherExamPage = () => {
     type: 'Subjective',
     text: '',
     options: [],
-    correctAnswer: '',
-    relatedTheory: '',
+    student_answer: '',
+    related_theory: '',
     marks: '',
   });
 
@@ -70,8 +70,8 @@ export const TeacherExamPage = () => {
       type: 'Subjective',
       text: '',
       options: [],
-      correctAnswer: '',
-      relatedTheory: '',
+      student_answer: '',
+      related_theory: '',
       marks: '',
     });
   };
@@ -89,6 +89,26 @@ export const TeacherExamPage = () => {
     }));
   };
 
+  const handleSubmit = async () => {
+    try {
+      const response = await fetch('http://127.0.0.1:5001/exams', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(exam),
+      });
+      if (response.ok) {
+        console.log('Exam saved successfully');
+        setExam({ title: '', duration: '', description: '', questions: [] });
+      } else {
+        console.error('Failed to save exam');
+      }
+    } catch (error) {
+      console.error('Error:', error);
+    }
+  };
+  
   return (
     <Container className="p-4 exam-container" style={{ marginTop: '100px' }}>
       <Card style={{ backgroundColor: 'black' }}>
@@ -261,31 +281,31 @@ export const TeacherExamPage = () => {
             {/* Correct Answer & Related Theory */}
             <Row className="mb-3">
               <Col>
-                <Form.Group controlId="correctAnswer">
-                  <Form.Label className="exam-label">Correct Answer</Form.Label>
+                <Form.Group controlId="student_answer">
+                  <Form.Label className="exam-label">Student Answer</Form.Label>
                   <Form.Control
                     as="textarea"
                     type="text"
                     style={{ minHeight: "40px", resize: "vertical" }}
                     placeholder="Answer"
-                    value={newQuestion.correctAnswer}
+                    value={newQuestion.student_answer}
                     onChange={(e) =>
-                      setNewQuestion((prev) => ({ ...prev, correctAnswer: e.target.value }))
+                      setNewQuestion((prev) => ({ ...prev, student_answer: e.target.value }))
                     }
                   />
                 </Form.Group>
               </Col>
               <Col>
-                <Form.Group controlId="relatedTheory">
+                <Form.Group controlId="related_theory">
                   <Form.Label className="exam-label">Related Theory</Form.Label>
                   <Form.Control
                     as="textarea"
                     rows={1}
                     placeholder="Theory"
                     style={{ minHeight: "40px", resize: "vertical" }}
-                    value={newQuestion.relatedTheory}
+                    value={newQuestion.related_theory}
                     onChange={(e) =>
-                      setNewQuestion((prev) => ({ ...prev, relatedTheory: e.target.value }))
+                      setNewQuestion((prev) => ({ ...prev, related_theory: e.target.value }))
                     }
                   />
                 </Form.Group>
@@ -347,8 +367,8 @@ export const TeacherExamPage = () => {
 
 
 
-      {showQuestionForm && <Button className="custom-add-question-btn" variant="primary" style={{ marginTop:'15px', left: '51%' }}>
-        Save Exam
+      {showQuestionForm && <Button className="custom-add-question-btn" variant="primary" style={{ marginTop:'15px', left: '51%' }} onClick={handleSubmit}>
+        Evaluate Exam
       </Button>}
     </Container>
   );
